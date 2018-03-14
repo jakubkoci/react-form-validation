@@ -1,0 +1,16 @@
+.form {
+  display: flex;
+  width: 20em;
+  margin: 0 auto;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.form-field {
+  margin: 1em;
+}
+
+button {
+  align-self: center;
+  margin: 1em;
+}
