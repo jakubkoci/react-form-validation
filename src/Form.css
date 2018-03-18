@@ -10,6 +10,12 @@
   margin: 1em;
 }
 
+.form-field-error {
+  margin-right: 1em;
+  font-size: 0.8em;
+  color: red;
+}
+
 button {
   align-self: center;
   margin: 1em;
