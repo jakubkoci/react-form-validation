@@ -16,6 +16,10 @@
   color: red;
 }
 
+label span {
+  margin-right: 0.5em;
+}
+
 button {
   align-self: center;
   margin: 1em;

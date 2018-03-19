@@ -22,12 +22,14 @@ export default function Form() {
         return (
           <div className="form">
             <label className="form-field" htmlFor="email">
-              E-mail: <input name="email" type="email" onChange={handleChange} />
+              <span>E-mail:</span>
+              <input name="email" type="email" onChange={handleChange} />
             </label>
             <div className="form-field-error">{errors.email}</div>
 
             <label className="form-field" htmlFor="password">
-              Password: <input name="password" type="password" onChange={handleChange} />
+              <span>Password:</span>
+              <input name="password" type="password" onChange={handleChange} />
             </label>
             <div className="form-field-error">{errors.password}</div>
 
@@ -38,7 +40,8 @@ export default function Form() {
             <div className="form-field-error">{errors.passwordConfirmation}</div>
 
             <label className="form-field" htmlFor="consent">
-              Consent: <input name="consent" type="checkbox" onChange={handleChange} />
+              <span>Consent:</span>
+              <input name="consent" type="checkbox" onChange={handleChange} />
             </label>
             <div className="form-field-error">{errors.consent}</div>
 
