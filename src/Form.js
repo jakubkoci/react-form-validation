@@ -31,9 +31,15 @@ export default function Form() {
             <div className="form-field-error">{errors.password}</div>
 
             <label className="form-field" htmlFor="passwordConfirmation">
-              Confirm password: <input name="passwordConfirmation" type="password" onChange={handleChange} />
+              <span>Confirm password:</span>
+              <input name="passwordConfirmation" type="password" onChange={handleChange} />
             </label>
             <div className="form-field-error">{errors.passwordConfirmation}</div>
+
+            <label className="form-field" htmlFor="consent">
+              Consent: <input name="consent" type="checkbox" onChange={handleChange} />
+            </label>
+            <div className="form-field-error">{errors.consent}</div>
 
             <button onClick={handleSubmit}>{isSubmitting ? 'Loading' : 'Sign Up'}</button>
           </div>
@@ -60,6 +66,10 @@ function validate(values) {
     errors.passwordConfirmation = 'Password confirmation is required!'
   } else if (values.password !== values.passwordConfirmation) {
     errors.passwordConfirmation = 'Passwords are not the same!'
+  }
+
+  if (!values.consent) {
+    errors.consent = 'You have to agree with our Terms and Conditions!'
   }
 
   return errors
