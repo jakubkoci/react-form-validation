@@ -1,5 +1,6 @@
 import React from 'react'
 import { Formik } from 'formik'
+import Yup from 'yup'
 import './Form.css'
 
 export default function Form() {
@@ -50,29 +51,40 @@ export default function Form() {
 }
 
 function validate(values) {
-  const errors = {}
-
-  if (!values.email) {
-    errors.email = 'E-mail is required!'
+  const validationSchema = getValidationSchema(values)
+  try {
+    validationSchema.validateSync(values, { abortEarly: false })
+    return {}
+  } catch (error) {
+    return getErrorsFromValidationError(error)
   }
+}
 
-  if (!values.password) {
-    errors.password = 'Password is required!'
-  } else if (values.password.length < 6) {
-    errors.password = 'Password has to be longer than 6 characters'
-  }
+function getValidationSchema(values) {
+  return Yup.object().shape({
+    email: Yup.string()
+      .email('E-mail is not valid!')
+      .required('E-mail is required!'),
+    password: Yup.string()
+      .min(6, 'Password has to be longer than 6 characters!')  
+      .required('Password is required!'),
+    passwordConfirmation: Yup.string()
+      .oneOf([values.password], 'Passwords are not the same!')
+      .required('Password confirmation is required!'),
+    consent: Yup.bool()
+      .test('consent', 'You have to agree with our Terms and Conditions!', value => value === true)
+      .required('You have to agree with our Terms and Conditions!'),
+  })
+}
 
-  if (!values.passwordConfirmation) {
-    errors.passwordConfirmation = 'Password confirmation is required!'
-  } else if (values.password !== values.passwordConfirmation) {
-    errors.passwordConfirmation = 'Passwords are not the same!'
-  }
-
-  if (!values.consent) {
-    errors.consent = 'You have to agree with our Terms and Conditions!'
-  }
-
-  return errors
+function getErrorsFromValidationError(validationError) {
+  const FIRST_ERROR = 0
+  return validationError.inner.reduce((errors, error) => {
+    return {
+      ...errors,
+      [error.path]: error.errors[FIRST_ERROR],
+    }
+  }, {})
 }
 
 function onSubmit(values, { setSubmitting, setErrors }) {
