@@ -1,6 +1,7 @@
 import React from 'react'
 import { Formik } from 'formik'
 import Yup from 'yup'
+import validate from './validate-yup'
 import './SignUpForm.css'
 
 const initialValues = {
@@ -13,7 +14,7 @@ export default function SignUpFormContainer() {
   return (
     <Formik
       initialValues={initialValues}
-      validate={validate}
+      validate={validate(getValidationSchema)}
       onSubmit={onSubmit}
       render={SignUpForm}
     />
@@ -54,16 +55,6 @@ function SignUpForm(props) {
   )
 }
 
-function validate(values) {
-  const validationSchema = getValidationSchema(values)
-  try {
-    validationSchema.validateSync(values, { abortEarly: false })
-    return {}
-  } catch (error) {
-    return getErrorsFromValidationError(error)
-  }
-}
-
 function getValidationSchema(values) {
   return Yup.object().shape({
     email: Yup.string()
@@ -79,16 +70,6 @@ function getValidationSchema(values) {
       .test('consent', 'You have to agree with our Terms and Conditions!', value => value === true)
       .required('You have to agree with our Terms and Conditions!'),
   })
-}
-
-function getErrorsFromValidationError(validationError) {
-  const FIRST_ERROR = 0
-  return validationError.inner.reduce((errors, error) => {
-    return {
-      ...errors,
-      [error.path]: error.errors[FIRST_ERROR],
-    }
-  }, {})
 }
 
 function onSubmit(values, { setSubmitting, setErrors }) {
