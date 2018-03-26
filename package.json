@@ -6,6 +6,7 @@
     "formik": "^0.11.11",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "spected": "^0.7.0",
     "yup": "^0.24.1"
   },
   "devDependencies": {

@@ -1,13 +1,14 @@
 import React from 'react'
 import { Formik } from 'formik'
-import Yup from 'yup'
-import validate from './validate-yup'
+import validate from './validate-spected'
+import getValidationSchema from './getValidationSchema-spected'
 import './SignUpForm.css'
 
 const initialValues = {
   email: '',
   password: '',
   passwordConfirmation: '',
+  consent: false,
 }
 
 export default function SignUpFormContainer() {
@@ -53,23 +54,6 @@ function SignUpForm(props) {
       <button onClick={handleSubmit}>{isSubmitting ? 'Loading' : 'Sign Up'}</button>
     </div>
   )
-}
-
-function getValidationSchema(values) {
-  return Yup.object().shape({
-    email: Yup.string()
-      .email('E-mail is not valid!')
-      .required('E-mail is required!'),
-    password: Yup.string()
-      .min(6, 'Password has to be longer than 6 characters!')  
-      .required('Password is required!'),
-    passwordConfirmation: Yup.string()
-      .oneOf([values.password], 'Passwords are not the same!')
-      .required('Password confirmation is required!'),
-    consent: Yup.bool()
-      .test('consent', 'You have to agree with our Terms and Conditions!', value => value === true)
-      .required('You have to agree with our Terms and Conditions!'),
-  })
 }
 
 function onSubmit(values, { setSubmitting, setErrors }) {
