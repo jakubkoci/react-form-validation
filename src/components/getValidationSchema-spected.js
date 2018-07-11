@@ -24,7 +24,7 @@ export default function getSpectedValidationSchema(values) {
 }
 
 function isEmpty(value) {
-  return value && value.trim().length === 0
+  return !value || !value.trim()
 }
 
 function isEmail(value) {
